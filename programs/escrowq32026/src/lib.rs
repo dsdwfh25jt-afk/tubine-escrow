@@ -9,7 +9,7 @@ pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("5Y6HMSgNYbkcBiQCukYvTK56aQarSpq1Nk9aiSsjws2o");
+declare_id!("9Aq7QcE33Gj5v7TYDZePkYizc3kSBwLhKQYNx2CRnVHM");
 
 // Two parties — a maker and a taker — can swap tokens without trusting each other or a third party.
 // The maker deposits token A into a program-controlled vault and specifies how much of token B they want in return.
@@ -24,7 +24,7 @@ declare_id!("5Y6HMSgNYbkcBiQCukYvTK56aQarSpq1Nk9aiSsjws2o");
 pub mod escrowq32026 {
     use super::*;
 
-    #[instruction(discriminator = 0)]
+    #[instruction(discriminator = 1)]
     pub fn make(
         ctx: Context<Make>,
         seed: u64,
@@ -39,8 +39,13 @@ pub mod escrowq32026 {
 
     //take instruction
     //TODO:
+     #[instruction(discriminator = 2)]
+    pub fn take(ctx: Context<Take>) -> Result<()> {
+        ctx.accounts.transfer_funds();
+        ctx.accounts.withdraw()
+    }
 
-    #[instruction(discriminator = 2)]
+    #[instruction(discriminator = 3)]
     pub fn refund(ctx: Context<Refund>) -> Result<()> {
         ctx.accounts.refund_and_close_vault()
     }
